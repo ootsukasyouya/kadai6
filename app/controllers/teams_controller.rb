@@ -22,7 +22,12 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+     if current_user.id == @team.owner.id
+    else
+      redirect_to team_path(@team)
+    end
+  end
 
   def create
     @team = Team.new(team_params)
