@@ -33,8 +33,19 @@
             <a href="#" class="nav-link">
               <i class="fa fa-circle-o nav-icon"></i>
               <p>
+                <p>
+              <div>
                 <%= agenda.title %>
                 <i class="right fa fa-angle-left"></i>
+                </p>
+                <p>
+                  <% if current_user.id == @working_team.owner_id %>
+                    <%=link_to "delete agenda",agenda ,method: :delete,data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+                  <% elsif agenda.user_id == current_user.id %>
+                    <%=link_to "delete agenda",agenda ,method: :delete,data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+                  <% end %>
+                </p>
+              </div>
               </p>
             </a>
             <ul class="nav nav-treeview" style="display: block;">
