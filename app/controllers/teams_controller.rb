@@ -9,13 +9,25 @@ class TeamsController < ApplicationController
   def show
     @working_team = @team
     change_keep_team(current_user, @team)
+    
+    if params[:team_leader_change]
+      @new_owner = @team.users.find(params[:change_id])
+      @team.update_attribute('owner_id',params[:change_id])
+      AssignMailer.appoint_mail(@new_owner).deliver
+      redirect_to team_path(@team)
+    end
   end
 
   def new
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+     if current_user.id == @team.owner.id
+    else
+      redirect_to team_path(@team)
+    end
+  end
 
   def create
     @team = Team.new(team_params)
